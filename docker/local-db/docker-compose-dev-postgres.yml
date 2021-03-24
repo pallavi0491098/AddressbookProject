@@ -1,0 +1,21 @@
+version: '2.1'
+services:
+  postgres-db:
+    container_name: postgres-db
+    image: 'cd.artifactory.ext.national.com.au/postgres:10.6-alpine3.9'
+    user: 'postgres'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 15s
+      timeout: 5s
+      retries: 20
+    ulimits:
+      nproc: 65535
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: 'user1'
+      POSTGRES_PASSWORD: 'password123'
+      POSTGRES_DB: 'addressbook'
+    env_file:
+      - docker-pgsql-dev.env
